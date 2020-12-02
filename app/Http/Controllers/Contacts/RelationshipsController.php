@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Contacts;
 
+use Illuminate\View\View;
 use App\Helpers\DateHelper;
+use App\Helpers\FormHelper;
 use Illuminate\Http\Request;
-use App\Helpers\GendersHelper;
+use App\Helpers\GenderHelper;
 use App\Models\Contact\Contact;
 use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use App\Models\Relationship\Relationship;
 use Illuminate\Support\Facades\Validator;
 use App\Services\Contact\Contact\CreateContact;
@@ -25,23 +28,26 @@ class RelationshipsController extends Controller
      *
      * @param Contact $contact
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function create(Request $request, Contact $contact)
     {
-        $existingContacts = Contact::search('', Auth::user()->account_id, 20, 'updated_at', 'AND `id` != '.$contact->id);
+        $existingContacts = Contact::search('', Auth::user()->account_id, 'updated_at')
+            ->whereNotIn('id', [$contact->id])
+            ->paginate(20);
 
         return view('people.relationship.new')
             ->withContact($contact)
             ->withPartner(new Contact)
-            ->withGenders(GendersHelper::getGendersInput())
+            ->withGenders(GenderHelper::getGendersInput())
             ->withRelationshipTypes($this->getRelationshipTypesList($contact))
             ->withDefaultGender(auth()->user()->account->default_gender_id)
             ->withDays(DateHelper::getListOfDays())
             ->withMonths(DateHelper::getListOfMonths())
             ->withBirthdate(now(DateHelper::getTimezone())->toDateString())
             ->withExistingContacts(ContactResource::collection($existingContacts))
-            ->withType($request->input('type'));
+            ->withType($request->input('type'))
+            ->withFormNameOrder(FormHelper::getNameOrderForForms(auth()->user()));
     }
 
     /**
@@ -50,7 +56,7 @@ class RelationshipsController extends Controller
      * @param Request $request
      * @param Contact $contact
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store(Request $request, Contact $contact)
     {
@@ -89,7 +95,7 @@ class RelationshipsController extends Controller
      * @param Contact $contact
      * @param Relationship $relationship
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function edit(Contact $contact, Relationship $relationship)
     {
@@ -117,8 +123,9 @@ class RelationshipsController extends Controller
             ->withDay($day)
             ->withMonth($month)
             ->withAge($age)
-            ->withGenders(GendersHelper::getGendersInput())
-            ->withHasBirthdayReminder($hasBirthdayReminder);
+            ->withGenders(GenderHelper::getGendersInput())
+            ->withHasBirthdayReminder($hasBirthdayReminder)
+            ->withFormNameOrder(FormHelper::getNameOrderForForms(auth()->user()));
     }
 
     /**
@@ -128,7 +135,7 @@ class RelationshipsController extends Controller
      * @param Contact $contact
      * @param Relationship $relationship
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function update(Request $request, Contact $contact, Relationship $relationship)
     {
@@ -193,6 +200,7 @@ class RelationshipsController extends Controller
 
         return [
             'account_id' => auth()->user()->account_id,
+            'author_id' => auth()->user()->id,
             'first_name' => $request->input('first_name'),
             'last_name' => $request->input('last_name'),
             'gender_id' => $request->input('gender_id'),
@@ -215,7 +223,7 @@ class RelationshipsController extends Controller
      * @param Contact $contact
      * @param Relationship $relationship
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function destroy(Contact $contact, Relationship $relationship)
     {

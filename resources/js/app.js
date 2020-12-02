@@ -23,14 +23,14 @@ Vue.use(Notifications);
 import Tooltip from 'vue-directive-tooltip';
 Vue.use(Tooltip, { delay: 0 });
 
-// Select used on list items to display edit and delete buttons
-//import vSelectMenu from 'v-selectmenu';
-//Vue.use(vSelectMenu);
-
 // Copy text from clipboard
 import VueClipboard from 'vue-clipboard2';
 VueClipboard.config.autoSetContainer = true;
 Vue.use(VueClipboard);
+
+// Dependency of vuejs-clipper
+import VueRx from 'vue-rx';
+Vue.use(VueRx);
 
 // Custom components
 Vue.component(
@@ -66,6 +66,10 @@ Vue.component(
 Vue.component(
   'avatar',
   require('./components/partials/Avatar.vue').default
+);
+Vue.component(
+  'confirm',
+  require('./components/partials/Confirm.vue').default
 );
 
 // Form elements
@@ -104,15 +108,6 @@ Vue.component(
 Vue.component(
   'form-specialdeceased',
   require('./components/partials/SpecialDeceased.vue').default
-);
-Vue.component(
-  'emotion',
-  require('./components/people/Emotion.vue').default
-);
-
-Vue.component(
-  'participant-list',
-  require('./components/people/Participant.vue').default
 );
 
 // Dashboard
@@ -168,7 +163,7 @@ Vue.component(
 
 Vue.component(
   'contact-gift',
-  require('./components/people/Gifts.vue').default
+  require('./components/people/gifts/Gifts.vue').default
 );
 
 Vue.component(
@@ -176,6 +171,10 @@ Vue.component(
   require('./components/people/Pets.vue').default
 );
 
+Vue.component(
+  'me-contact',
+  require('./components/people/MeContact.vue').default
+);
 Vue.component(
   'stay-in-touch',
   require('./components/people/StayInTouch.vue').default
@@ -204,16 +203,6 @@ Vue.component(
 Vue.component(
   'activity-list',
   require('./components/people/activity/ActivityList.vue').default
-);
-
-Vue.component(
-  'create-activity',
-  require('./components/people/activity/CreateActivity.vue').default
-);
-
-Vue.component(
-  'activity-type-list',
-  require('./components/people/activity/ActivityTypeList.vue').default
 );
 
 Vue.component(
@@ -294,10 +283,6 @@ Vue.component(
   require('./components/settings/MfaActivate.vue').default
 );
 Vue.component(
-  'u2f-connector',
-  require('./components/settings/U2fConnector.vue').default
-);
-Vue.component(
   'webauthn-connector',
   require('./components/settings/WebauthnConnector.vue').default
 );
@@ -314,9 +299,15 @@ Vue.component(
   require('./components/settings/ActivityTypes.vue').default
 );
 Vue.component(
+  'life-event-types',
+  require('./components/settings/LifeEventTypes.vue').default
+);
+Vue.component(
   'dav-resources',
   require('./components/settings/DAVResources.vue').default
 );
+
+require('./testing');
 
 var common = require('./common').default;
 
@@ -334,25 +325,9 @@ common.loadLanguage(window.Laravel.locale, true).then((i18n) => {
       global_relationship_form_new_contact: true,
       global_profile_default_view: window.Laravel.profileDefaultView,
     },
-    mounted: function() {
 
-      // required modules
-      require('./contacts');
-
-    },
-    methods: {
-      updateDefaultProfileView(view) {
-        axios.post('settings/updateDefaultProfileView', { name: view })
-          .then(response => {
-            this.global_profile_default_view = view;
-          });
-      },
-
-      fixAvatarDisplay(event) {
-        event.srcElement.classList = ['hidden'];
-        event.srcElement.nextElementSibling.classList.remove('hidden');
-      },
-    }
+    // global methods
+    methods: require('./methods').default
   }).$mount('#app');
 
   return app;

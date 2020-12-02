@@ -23,12 +23,13 @@ class ApiGenderControllerTest extends ApiTestCase
         'updated_at',
     ];
 
-    public function test_it_gets_a_list_of_genders()
+    /** @test */
+    public function it_gets_a_list_of_genders()
     {
         $user = $this->signin();
 
         factory(Gender::class, 3)->create([
-            'account_id' => $user->account->id,
+            'account_id' => $user->account_id,
         ]);
 
         $response = $this->json('GET', '/api/genders');
@@ -39,7 +40,8 @@ class ApiGenderControllerTest extends ApiTestCase
         ]);
     }
 
-    public function test_it_applies_the_limit_parameter_in_search()
+    /** @test */
+    public function it_applies_the_limit_parameter_in_search()
     {
         $user = $this->signin();
 
@@ -66,36 +68,39 @@ class ApiGenderControllerTest extends ApiTestCase
         ]);
     }
 
-    public function test_it_gets_one_gender()
+    /** @test */
+    public function it_gets_one_gender()
     {
         $user = $this->signin();
 
         $gender = factory(Gender::class)->create([
-            'account_id' => $user->account->id,
+            'account_id' => $user->account_id,
         ]);
 
         $response = $this->json('get', '/api/genders/'.$gender->id);
 
-        $response->assertstatus(200);
-        $response->assertjsonstructure([
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
             'data' => $this->jsonGender,
         ]);
-        $response->assertjsonfragment([
+        $response->assertJsonFragment([
             'object' => 'gender',
             'id' => $gender->id,
         ]);
     }
 
-    public function test_it_cant_get_a_gender_with_unexistent_id()
+    /** @test */
+    public function it_cant_get_a_gender_with_unexistent_id()
     {
         $user = $this->signin();
 
         $response = $this->json('get', '/api/genders/0');
 
-        $this->expectnotfound($response);
+        $this->expectNotFound($response);
     }
 
-    public function test_it_creates_a_gender()
+    /** @test */
+    public function it_creates_a_gender()
     {
         $user = $this->signin();
 
@@ -104,32 +109,33 @@ class ApiGenderControllerTest extends ApiTestCase
             'type' => 'M',
         ]);
 
-        $response->assertstatus(201);
-        $response->assertjsonstructure([
+        $response->assertStatus(201);
+        $response->assertJsonStructure([
             'data' => $this->jsonGender,
         ]);
 
         $genderId = $response->json('data.id');
 
-        $response->assertjsonfragment([
+        $response->assertJsonFragment([
             'object' => 'gender',
             'id' => $genderId,
         ]);
 
-        $this->assertdatabasehas('genders', [
-            'account_id' => $user->account->id,
+        $this->assertDatabasehas('genders', [
+            'account_id' => $user->account_id,
             'id' => $genderId,
             'name' => 'man',
             'type' => 'M',
         ]);
     }
 
-    public function test_it_updates_a_gender()
+    /** @test */
+    public function it_updates_a_gender()
     {
         $user = $this->signin();
 
         $gender = factory(Gender::class)->create([
-            'account_id' => $user->account->id,
+            'account_id' => $user->account_id,
         ]);
 
         $response = $this->json('put', '/api/genders/'.$gender->id, [
@@ -137,30 +143,31 @@ class ApiGenderControllerTest extends ApiTestCase
             'type' => 'M',
         ]);
 
-        $response->assertstatus(200);
+        $response->assertStatus(200);
 
-        $response->assertjsonstructure([
+        $response->assertJsonStructure([
             'data' => $this->jsonGender,
         ]);
 
         $genderId = $response->json('data.id');
 
-        $this->assertequals($gender->id, $genderId);
+        $this->assertEquals($gender->id, $genderId);
 
-        $response->assertjsonfragment([
+        $response->assertJsonFragment([
             'object' => 'gender',
             'id' => $genderId,
         ]);
 
         $this->assertDatabaseHas('genders', [
-            'account_id' => $user->account->id,
+            'account_id' => $user->account_id,
             'id' => $genderId,
             'name' => 'man',
             'type' => 'M',
         ]);
     }
 
-    public function test_it_cant_update_a_gender_if_account_is_not_linked_to_gender()
+    /** @test */
+    public function it_cant_update_a_gender_if_account_is_not_linked_to_gender()
     {
         $user = $this->signin();
 
@@ -174,10 +181,11 @@ class ApiGenderControllerTest extends ApiTestCase
             'type' => 'M',
         ]);
 
-        $this->expectnotfound($response);
+        $this->expectNotFound($response);
     }
 
-    public function test_it_cant_update_a_gender_if_account_is_not_linked_to_gender2()
+    /** @test */
+    public function it_cant_update_a_gender_if_account_is_not_linked_to_gender2()
     {
         $user = $this->signin();
 
@@ -192,28 +200,30 @@ class ApiGenderControllerTest extends ApiTestCase
             'type' => 'M',
         ]);
 
-        $this->expectnotfound($response);
+        $this->expectNotFound($response);
     }
 
-    public function test_it_deletes_a_gender()
+    /** @test */
+    public function it_deletes_a_gender()
     {
         $user = $this->signin();
 
         $gender = factory(Gender::class)->create([
-            'account_id' => $user->account->id,
+            'account_id' => $user->account_id,
         ]);
 
         $response = $this->json('delete', '/api/genders/'.$gender->id);
 
-        $response->assertstatus(200);
+        $response->assertStatus(200);
 
-        $this->assertdatabasemissing('genders', [
-            'account_id' => $user->account->id,
+        $this->assertDatabaseMissing('genders', [
+            'account_id' => $user->account_id,
             'id' => $gender->id,
         ]);
     }
 
-    public function test_it_cant_delete_a_gender_if_gender_doesnt_exist()
+    /** @test */
+    public function it_cant_delete_a_gender_if_gender_doesnt_exist()
     {
         $user = $this->signin();
 

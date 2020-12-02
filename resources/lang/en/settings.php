@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * ⚠️ Edition not allowed except for 'en' language.
+ *
+ * @see https://github.com/monicahq/monica/blob/master/docs/contribute/translate.md for translations.
+ */
+
 return [
     'sidebar_settings' => 'Account settings',
     'sidebar_personalization' => 'Personalization',
@@ -12,6 +18,20 @@ return [
     'sidebar_settings_api' => 'API',
     'sidebar_settings_dav' => 'DAV Resources',
     'sidebar_settings_security' => 'Security',
+    'sidebar_settings_auditlogs' => 'Audit logs',
+
+    'title_general' => 'General Information',
+    'title_i18n' => 'International settings',
+    'title_layout' => 'Layout',
+
+    'me_title' => 'My contact',
+    'me_help' => 'This is the contact that represents <em>you</em> in Monica',
+    'me_select' => 'Select a contact',
+    'me_no_contact' => 'No contact selected yet.',
+    'me_select_click' => 'Click here to select a contact.',
+    'me_remove_contact' => 'Remove the association',
+    'me_choose' => 'Choose yourself',
+    'me_choose_placeholder' => 'Choose yourself',
 
     'export_title' => 'Export your account data',
     'export_be_patient' => 'Click the button to start the export. It might take several minutes to process the export – please be patient and do not spam the button.',
@@ -29,6 +49,8 @@ return [
     'name_order_firstname_nickname_lastname' => '<First name> (<Nickname>) <Last name> - John (Rambo) Doe',
     'name_order_lastname_firstname_nickname' => '<Last name> <First name> (<Nickname>) - Doe John (Rambo)',
     'name_order_lastname_nickname_firstname' => '<Last name> (<Nickname>) <First name> - Doe (Rambo) John',
+    'name_order_nickname_firstname_lastname' => '<Nickname> (<First name> <Last name>) - Rambo (John Doe)',
+    'name_order_nickname_firstname_lastname' => '<Nickname> (<Last name> <First name>) - Rambo (Doe John)',
     'name_order_nickname' => '<Nickname> - Rambo',
     'currency' => 'Currency',
     'name' => 'Your name: :name',
@@ -44,7 +66,8 @@ return [
     'layout_big' => 'Full width of the browser',
     'save' => 'Update preferences',
     'delete_title' => 'Delete your account',
-    'delete_desc' => 'Do you wish to delete your account? Warning: deletion is permanent and all your data will be erased permanently.',
+    'delete_desc' => 'Do you wish to delete your account? Warning: deletion is permanent and all your data will be erased permanently. Your subscription (if you have any) will also be immediately cancelled.',
+    'delete_other_desc' => 'Just to be clear: your data in the main database will be deleted immediately. However, as described in our privacy policy, we do daily backups of the database in case of failure and this backup is kept for 30 days – then it’s completely deleted. It’s unrealistic to imagine that we can go in all the backups to delete your specific data. By the way, this data is encrypted on very secure Amazon servers and no one has the encryption key except us. Therefore, your data will completely disappear in 30 days from all the backups, and no one will know this data ever existed in the first place.',
     'reset_desc' => 'Do you wish to reset your account? This will remove all your contacts, and the data associated with them. Your account will not be deleted.',
     'reset_title' => 'Reset your account',
     'reset_cta' => 'Reset account',
@@ -54,6 +77,7 @@ return [
     'delete_cta' => 'Delete account',
     'settings_success' => 'Preferences updated!',
     'locale' => 'Language used in the app',
+    'locale_help' => 'Do you want to help translating Monica or add a new language? Please follow <a href=":url" target="_blank" lang="en">this link for more information</a>.',
     'locale_ar' => 'Arabic',
     'locale_cs' => 'Czech',
     'locale_de' => 'German',
@@ -63,12 +87,15 @@ return [
     'locale_he' => 'Hebrew',
     'locale_hr' => 'Croatian',
     'locale_it' => 'Italian',
+    'locale_ja' => 'Japanese',
     'locale_nl' => 'Dutch',
     'locale_pt' => 'Portuguese',
-    'locale_pt-BR' => 'Brazilian',
+    'locale_pt-BR' => 'Portuguese (Brazil)',
     'locale_ru' => 'Russian',
     'locale_zh' => 'Chinese Simplified',
+    'locale_zh-TW' => 'Chinese Traditional',
     'locale_tr' => 'Turkish',
+    'locale_en-GB' => 'English (United Kingdom)',
 
     'security_title' => 'Security',
     'security_help' => 'Change security matters for your account.',
@@ -94,22 +121,6 @@ return [
     '2fa_disable_description' => 'Disable Two Factor Authentication for your account. Be careful, your account will not be secured anymore !',
     '2fa_disable_success' => 'Two Factor Authentication disabled',
     '2fa_disable_error' => 'Error when trying to disable Two Factor Authentication',
-    'u2f_title' => 'U2F security key',
-    'u2f_enable_description' => 'Add a new U2F security key',
-    'u2f_key_name_help' => 'Give your key a name.',
-    'u2f_key_name' => 'Key name:',
-    'u2f_buttonAdvise' => 'If your security key has a button, press it.',
-    'u2f_noButtonAdvise' => 'If it does not, remove it and insert it again.',
-    'u2f_success' => 'Your key is detected and validated.',
-    'u2f_insertKey' => 'Insert your security key.',
-    'u2f_error_other_error' => 'An error occurred.',
-    'u2f_error_bad_request' => 'The visited URL doesn’t match the App ID or your are not using HTTPS',
-    'u2f_error_configuration_unsupported' => 'Client configuration is not supported.',
-    'u2f_error_device_ineligible' => 'The presented device is not eligible for this request. For a registration request this may mean that the token is already registered, and for a sign request it may mean that the token does not know the presented key handle.',
-    'u2f_error_timeout' => 'Timeout reached before request could be satisfied.',
-    'u2f_last_use' => 'Last use: {timestamp}',
-    'u2f_delete_confirmation' => 'Are you sure you want to delete this key?',
-    'u2f_delete_success' => 'Key deleted',
 
     'webauthn_title' => 'Security key — WebAuthn protocol',
     'webauthn_enable_description' => 'Add a new security key',
@@ -187,7 +198,7 @@ return [
     'subscriptions_downgrade_rule_users_constraint' => 'You currently have <a href=":url">1 user</a> in your account.|You currently have <a href=":url">:count users</a> in your account.',
     'subscriptions_downgrade_rule_invitations' => 'You must not have pending invitations',
     'subscriptions_downgrade_rule_invitations_constraint' => 'You currently have <a href=":url">1 pending invitation</a> sent to people.|You currently have <a href=":url">:count pending invitations</a> sent to people.',
-    'subscriptions_downgrade_rule_contacts' => 'You must not have more than :number contacts',
+    'subscriptions_downgrade_rule_contacts' => 'You must not have more than :number active contacts',
     'subscriptions_downgrade_rule_contacts_constraint' => 'You currently have <a href=":url">1 contact</a>.|You currently have <a href=":url">:count contacts</a>.',
     'subscriptions_downgrade_cta' => 'Downgrade',
     'subscriptions_downgrade_success' => 'You are back to the Free plan!',
@@ -309,7 +320,7 @@ return [
 
     'api_oauth_clients' => 'Your OAuth clients',
     'api_oauth_clients_desc' => 'This section lets you register your own OAuth clients.',
-    'api_oauth_clients_desc2' => 'Use this client id to request a new token, and convert authorization codes to access tokens. See <a href="{url}">Laravel Passport documentation</a> for more explanations.',
+    'api_oauth_clients_desc2' => 'Use this client id to request a new token, and convert authorization codes to access tokens. See <a href="{url}">Laravel Passport documentation</a> for more information.',
     'api_oauth_title' => 'OAuth Clients',
     'api_oauth_create_new' => 'Create New Client',
     'api_oauth_edit' => 'Edit Client',
@@ -323,7 +334,7 @@ return [
     'api_oauth_redirecturl_help' => 'Your application’s authorization callback URL.',
 
     'api_authorized_clients' => 'List of authorized clients',
-    'api_authorized_clients_desc' => 'This section lists all the clients you’ve authorized to access your application datas. You can revoke this authorization at anytime.',
+    'api_authorized_clients_desc' => 'This section lists all the clients you’ve authorized to access your application data. You can revoke this authorization at anytime.',
     'api_authorized_clients_title' => 'Authorized Applications',
     'api_authorized_clients_none' => 'There is no authorized client yet.',
     'api_authorized_clients_name' => 'Name',
@@ -360,7 +371,7 @@ return [
     'personalization_genders_modal_name_help' => 'The name used to display the gender on a contact page.',
     'personalization_genders_modal_sex' => 'Sex',
     'personalization_genders_modal_sex_help' => 'Used to define the relationships, and during the VCard import/export process.',
-    'personalization_genders_modal_default' => 'Is this the default gender for a new contact?',
+    'personalization_genders_modal_default' => 'Select the default gender for a new contact',
     'personalization_genders_modal_delete' => 'Delete gender type',
     'personalization_genders_modal_delete_desc' => 'Are you sure you want to delete {name}?',
     'personalization_genders_modal_delete_question' => 'You currently have {count} contact that has this gender. If you delete this gender, what gender should this contact have?|You currently have {count} contacts that have this gender. If you delete this gender, what gender should these contacts have?',
@@ -388,7 +399,8 @@ return [
     'personalization_module_title' => 'Features',
     'personalization_module_desc' => 'Some people don’t need all the features. Below you can toggle specific features that are used on a contact sheet. This change will affect ALL your contacts. Note that if you turn off one of these features, data will not be lost - we will simply hide the feature.',
 
-    'personalisation_paid_upgrade' => 'This is a premium feature that requires a Paid subscription to be active. Upgrade your account by visiting Settings > Subscription.',
+    'personalisation_paid_upgrade' => 'This is a premium feature that requires a Paid subscription to be active. Upgrade your account by visiting <a href=":url">Settings > Subscription</a>.',
+    'personalisation_paid_upgrade_vue' => 'This is a premium feature that requires a Paid subscription to be active. Upgrade your account by visiting <a href="{url}">Settings > Subscription</a>.',
 
     'reminder_time_to_send' => 'Time of the day reminders should be sent',
     'reminder_time_to_send_help' => 'For your information, your next reminder will be sent on <span title="{dateTimeUtc}" class="reminder-info">{dateTime}</span>.',
@@ -411,6 +423,18 @@ return [
     'personalization_activity_type_modal_delete_desc' => 'Are you sure you want to delete this activity type? Activities that belong to this category will not be affected by this deletion.',
     'personalization_activity_type_modal_delete_error' => 'We can’t find this activity type.',
     'personalization_activity_type_category_modal_delete_error' => 'We can’t find this activity type category.',
+
+    'personalization_life_event_category_title' => 'Life event categories',
+    'personalization_live_event_category_table_name' => 'Name',
+    'personalization_life_event_category_description' => 'A life event can have a type and a category. Your account comes by default with a set of predefined categories and types, but you can customize life event types here.',
+    'personalization_live_event_category_table_actions' => 'Actions',
+    'personalization_life_event_type_add_button' => 'Add a new life event type',
+    'personalization_life_event_type_modal_add' => 'Add a new life event type',
+    'personalization_life_event_type_modal_question' => 'How should we name this new life event type?',
+    'personalization_life_event_type_modal_edit' => 'Edit a life event type',
+    'personalization_life_event_type_modal_delete' => 'Delete a life event type',
+    'personalization_life_event_type_modal_delete_desc' => 'Are you sure you want to delete this life event type? Life events that belong to this type will be deleted by performing this action.',
+    'personalization_life_event_type_modal_delete_error' => 'We can’t find this life event type.',
 
     'personalization_life_event_category_work_education' => 'Work & education',
     'personalization_life_event_category_family_relationships' => 'Family & relationships',
@@ -474,7 +498,7 @@ return [
     'dav_clipboard_copied' => 'Value copied into your clipboard',
     'dav_url_base' => 'Base url for all CardDAV and CalDAV resources:',
     'dav_connect_help' => 'You can connect your contacts and/or calendars with this base url on you phone or computer.',
-    'dav_connect_help2' => 'Use your login (email) and password, or create an API token to authenticate.',
+    'dav_connect_help2' => 'Use your login (email) and create an API token as the password to authenticate.',
     'dav_url_carddav' => 'CardDAV url for Contacts resource:',
     'dav_url_caldav_birthdays' => 'CalDAV url for Birthdays resources:',
     'dav_url_caldav_tasks' => 'CalDAV url for Tasks resources:',
@@ -483,4 +507,11 @@ return [
     'dav_carddav_export' => 'Export all contacts in one file',
     'dav_caldav_birthdays_export' => 'Export all birthdays in one file',
     'dav_caldav_tasks_export' => 'Export all tasks in one file',
+
+    'archive_title' => 'Archive all your contacts in your account',
+    'archive_desc' => 'This will archive all the contacts in your account.',
+    'archive_cta' => 'Archive all your contacts',
+
+    'logs_title' => 'Everything that happened to this account',
+    'logs_author' => 'By :name on :date',
 ];

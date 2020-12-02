@@ -67,8 +67,8 @@ class ApiActivityTypeController extends ApiController
                 $request->except(['account_id'])
                     +
                     [
-                    'account_id' => auth()->user()->account->id,
-                ]
+                        'account_id' => auth()->user()->account_id,
+                    ]
             );
         } catch (ModelNotFoundException $e) {
             return $this->respondNotFound();
@@ -96,9 +96,9 @@ class ApiActivityTypeController extends ApiController
                 $request->except(['account_id', 'activity_type_id'])
                     +
                     [
-                    'account_id' => auth()->user()->account->id,
-                    'activity_type_id' => $activityTypeId,
-                ]
+                        'account_id' => auth()->user()->account_id,
+                        'activity_type_id' => $activityTypeId,
+                    ]
             );
         } catch (ModelNotFoundException $e) {
             return $this->respondNotFound();
@@ -123,7 +123,7 @@ class ApiActivityTypeController extends ApiController
     {
         try {
             app(DestroyActivityType::class)->execute([
-                'account_id' => auth()->user()->account->id,
+                'account_id' => auth()->user()->account_id,
                 'activity_type_id' => $activityTypeId,
             ]);
         } catch (ModelNotFoundException $e) {

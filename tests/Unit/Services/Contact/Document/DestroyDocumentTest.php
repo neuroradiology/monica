@@ -17,7 +17,8 @@ class DestroyDocumentTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function test_it_destroys_a_document()
+    /** @test */
+    public function it_destroys_a_document()
     {
         Storage::fake();
 
@@ -25,7 +26,7 @@ class DestroyDocumentTest extends TestCase
         $document = $this->uploadDocument($contact);
 
         $request = [
-            'account_id' => $document->account->id,
+            'account_id' => $document->account_id,
             'document_id' => $document->id,
         ];
 
@@ -42,7 +43,8 @@ class DestroyDocumentTest extends TestCase
         Storage::disk('public')->assertMissing($document->new_filename);
     }
 
-    public function test_it_fails_if_wrong_parameters_are_given()
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given()
     {
         $request = [
             'document_id' => 2,
@@ -53,12 +55,13 @@ class DestroyDocumentTest extends TestCase
         app(DestroyDocument::class)->execute($request);
     }
 
-    public function test_it_throws_a_document_doesnt_exist()
+    /** @test */
+    public function it_throws_a_document_doesnt_exist()
     {
         $document = factory(Document::class)->create([]);
 
         $request = [
-            'account_id' => $document->account->id,
+            'account_id' => $document->account_id,
             'document_id' => 3,
         ];
 
@@ -70,7 +73,7 @@ class DestroyDocumentTest extends TestCase
     private function uploadDocument($contact)
     {
         $request = [
-            'account_id' => $contact->account->id,
+            'account_id' => $contact->account_id,
             'contact_id' => $contact->id,
             'document' => UploadedFile::fake()->image('document.pdf'),
         ];

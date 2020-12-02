@@ -11,7 +11,7 @@
         🍿 {{ $t('people.activity_title') }}
 
         <span class="fr relative btn-title">
-          <a v-if="displayLogActivity == false" class="btn edit-information" @click="displayLogActivity = true">
+          <a v-if="displayLogActivity == false" v-cy-name="'add-activity-button'" class="btn edit-information" @click="displayLogActivity = true">
             {{ $t('people.activities_add_activity') }}
           </a>
           <a v-else class="btn edit-information" @click="displayLogActivity = false">
@@ -23,7 +23,7 @@
 
     <!-- BLANK STATE -->
     <div v-if="!displayLogActivity && activities.length == 0" class="w-100">
-      <div class="bg-near-white tc pa3 br2 ba b--light-gray">
+      <div v-cy-name="'activities-blank-state'" class="bg-near-white tc pa3 br2 ba b--light-gray">
         <p>{{ $t('people.activities_blank_title', { name: name }) }}</p>
         <a class="pointer" href="" @click.prevent="displayLogActivity = true">
           {{ $t('people.activities_blank_add_activity') }}
@@ -32,82 +32,99 @@
     </div>
 
     <!-- LOG AN ACTIVITY -->
-    <create-activity
-      :hash="hash"
-      :name="name"
-      :display-log-activity="displayLogActivity"
-      @update="updateList($event)"
-      @cancel="displayLogActivity = false"
-    />
+    <template v-if="displayLogActivity">
+      <create-activity
+        :hash="hash"
+        :contact-id="contactId"
+        :name="name"
+        @update="updateList($event)"
+        @cancel="displayLogActivity = false"
+      />
+    </template>
 
     <!-- LIST OF ACTIVITIES -->
-    <div v-for="activity in activities" :key="activity.id" class="ba br2 b--black-10 br--top w-100 mb2">
-      <h2 class="pl2 pr2 pt3 f5">
-        {{ activity.summary }}
-      </h2>
+    <div v-cy-name="'activities-body'" v-cy-items="activities.map(c => c.id)">
+      <div v-for="activity in activities" :key="activity.id" v-cy-name="'activity-body-'+activity.id" class="ba br2 b--black-10 br--top w-100 mb2">
+        <template v-if="!activity.edit">
+          <h2 class="pl2 pr2 pt3 f5">
+            {{ activity.summary }}
+          </h2>
 
-      <div v-if="activity.description" class="pl2 pr2 pb3" v-html="activity.description">
-      </div>
+          <div v-if="activity.description" dir="auto" class="markdown pl2 pr2 pb3" v-html="compiledMarkdown(activity.description)">
+          </div>
 
-      <!-- DETAILS -->
-      <div class="pa2 cf bt b--black-10 br--bottom f7">
-        <div class="w-70" :class="[ dirltr ? 'fl' : 'fr' ]">
-          <ul class="list">
-            <!-- HAPPENED AT -->
-            <li class="di" :class="[ dirltr ? 'mr3' : 'ml3' ]">
-              {{ activity.happened_at | moment }}
-            </li>
-
-            <!-- PARTICIPANT LIST -->
-            <li v-if="activity.attendees.total > 1" class="di">
-              <ul class="di list" :class="[ dirltr ? 'mr3' : 'ml3' ]">
-                <li class="di">
-                  {{ $t('people.activities_list_participants') }}
+          <!-- DETAILS -->
+          <div class="pa2 cf bt b--black-10 br--bottom f7">
+            <div class="w-70" :class="[ dirltr ? 'fl' : 'fr' ]">
+              <ul class="list">
+                <!-- HAPPENED AT -->
+                <li class="di" :class="[ dirltr ? 'mr3' : 'ml3' ]">
+                  {{ activity.happened_at | moment }}
                 </li>
-                <li v-for="attendee in activity.attendees.contacts" :key="attendee.id" class="di mr2">
-                  <span v-show="attendee.id != contactId">{{ attendee.complete_name }}</span>
+
+                <!-- PARTICIPANT LIST -->
+                <li v-if="activity.attendees.total > 1" class="di">
+                  <ul class="di list" :class="[ dirltr ? 'mr3' : 'ml3' ]">
+                    <li class="di">
+                      {{ $t('people.activities_list_participants') }}
+                    </li>
+                    <li v-for="attendee in activity.attendees.contacts.filter(c => c.id !== contactId)" :key="attendee.id" class="di mr2">
+                      <a :href="'people/' + attendee.hash_id">{{ attendee.complete_name }}</a>
+                    </li>
+                  </ul>
+                </li>
+
+                <!-- EMOTIONS LIST -->
+                <li v-if="activity.emotions.length != 0" class="di">
+                  <ul class="di list" :class="[ dirltr ? 'mr3' : 'ml3' ]">
+                    <li class="di">
+                      {{ $t('people.activities_list_emotions') }}
+                    </li>
+                    <li v-for="emotion in activity.emotions" :key="emotion.id" class="di">
+                      {{ $t('app.emotion_' + emotion.name) }}
+                    </li>
+                  </ul>
+                </li>
+
+                <!-- ACTIVITY TYPE -->
+                <li v-if="activity.activity_type" class="di" :class="[ dirltr ? 'mr3' : 'ml3' ]">
+                  {{ activity.activity_type.name }}
                 </li>
               </ul>
-            </li>
-
-            <!-- EMOTIONS LIST -->
-            <li v-if="activity.emotions.length != 0" class="di">
-              <ul class="di list" :class="[ dirltr ? 'mr3' : 'ml3' ]">
+            </div>
+            <div class="w-30" :class="[ dirltr ? 'fl tr' : 'fr tl' ]">
+              <!-- ACTIONS -->
+              <ul class="list">
                 <li class="di">
-                  {{ $t('people.activities_list_emotions') }}
-                </li>
-                <li v-for="emotion in activity.emotions" :key="emotion.id" class="di">
-                  {{ $t('app.emotion_' + emotion.name) }}
+                  <a v-cy-name="'edit-activity-button-'+activity.id" href="" class="pointer" @click.prevent="$set(activity, 'edit', true)">{{ $t('app.edit') }}</a>
+                  <a v-show="destroyActivityId != activity.id" v-cy-name="'delete-activity-button-'+activity.id" href="" class="pointer" @click.prevent="showDestroyActivity(activity)">{{ $t('app.delete') }}</a>
+                  <ul v-show="destroyActivityId == activity.id" class="di">
+                    <li class="di">
+                      <a v-cy-name="'confirm-delete-activity'" class="pointer red" @click.prevent="destroyActivity(activity)">
+                        {{ $t('app.delete_confirm') }}
+                      </a>
+                    </li>
+                    <li class="di">
+                      <a class="pointer mr1" @click.prevent="destroyActivityId = 0">
+                        {{ $t('app.cancel') }}
+                      </a>
+                    </li>
+                  </ul>
                 </li>
               </ul>
-            </li>
+            </div>
+          </div>
+        </template>
 
-            <!-- ACTIVITY TYPE -->
-            <li v-if="activity.activity_type" class="di" :class="[ dirltr ? 'mr3' : 'ml3' ]">
-              {{ activity.activity_type.name }}
-            </li>
-          </ul>
-        </div>
-        <div class="w-30" :class="[ dirltr ? 'fl tr' : 'fr tl' ]">
-          <!-- ACTIONS -->
-          <ul class="list">
-            <li class="di">
-              <a v-show="destroyActivityId != activity.id" class="pointer" @click.prevent="showDestroyActivity(activity)">{{ $t('app.delete') }}</a>
-              <ul v-show="destroyActivityId == activity.id" class="di">
-                <li class="di">
-                  <a class="pointer red" @click.prevent="destroyActivity(activity)">
-                    {{ $t('app.delete_confirm') }}
-                  </a>
-                </li>
-                <li class="di">
-                  <a class="pointer mr1" @click.prevent="destroyActivityId = 0">
-                    {{ $t('app.cancel') }}
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
+        <!-- EDIT THE CURRENT ACTIVITY -->
+        <create-activity v-else
+                         :hash="hash"
+                         :name="name"
+                         :activity="activity"
+                         :contact-id="contactId"
+                         @update="updateList($event)"
+                         @cancel="$set(activity, 'edit', false); displayLogActivity = false"
+        />
       </div>
     </div>
 
@@ -119,8 +136,13 @@
 
 <script>
 import moment from 'moment';
+import CreateActivity from './CreateActivity.vue';
 
 export default {
+  components: {
+    CreateActivity
+  },
+
   filters: {
     moment: function (date) {
       return moment.utc(date).format('LL');
@@ -177,7 +199,7 @@ export default {
     },
 
     getActivities() {
-      axios.get('/people/' + this.hash + '/activities')
+      axios.get('api/contacts/' + this.contactId + '/activities')
         .then(response => {
           this.activities = response.data.data;
         });
@@ -193,7 +215,7 @@ export default {
     },
 
     destroyActivity(activity) {
-      axios.delete('/people/' + this.hash + '/activities/' + activity.id)
+      axios.delete('api/activities/' + activity.id)
         .then(response => {
           this.activities.splice(this.activities.indexOf(activity), 1);
         });

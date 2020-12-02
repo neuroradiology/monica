@@ -2,7 +2,6 @@
 
 namespace App\Models\Account;
 
-use Parsedown;
 use App\Helpers\DateHelper;
 use App\Traits\Journalable;
 use App\Models\Contact\Contact;
@@ -14,6 +13,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Http\Resources\Contact\ContactShort as ContactShortResource;
 
+/**
+ * @property int|null $activity_type_id
+ */
 class Activity extends Model implements IsJournalableInterface
 {
     use Journalable;
@@ -101,20 +103,6 @@ class Activity extends Model implements IsJournalableInterface
     }
 
     /**
-     * Return the markdown parsed body.
-     *
-     * @return string|null
-     */
-    public function getParsedContentAttribute()
-    {
-        if (is_null($this->description)) {
-            return;
-        }
-
-        return (new Parsedown())->text($this->description);
-    }
-
-    /**
      * Get the summary for this activity.
      *
      * @return string or null
@@ -131,7 +119,7 @@ class Activity extends Model implements IsJournalableInterface
      */
     public function getTitle()
     {
-        return $this->type ? $this->type->key : null;
+        return $this->type ? $this->type->translation_key : null;
     }
 
     /**
@@ -139,17 +127,12 @@ class Activity extends Model implements IsJournalableInterface
      */
     public function getContactsForAPI()
     {
-        $attendees = collect([]);
+        $attendees = $this->contacts->filter(function ($contact) {
+            // This should not be possible!
+            return $contact->account_id === $this->account_id;
+        });
 
-        foreach ($this->contacts as $contact) {
-            if ($contact->account_id !== $this->account_id) {
-                // This should not be possible!
-                continue;
-            }
-            $attendees->push(new ContactShortResource($contact));
-        }
-
-        return $attendees;
+        return ContactShortResource::collection($attendees);
     }
 
     /**

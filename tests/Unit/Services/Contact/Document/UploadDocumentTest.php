@@ -17,7 +17,8 @@ class UploadDocumentTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function test_it_uploads_a_document()
+    /** @test */
+    public function it_uploads_a_document()
     {
         Storage::fake();
 
@@ -26,7 +27,7 @@ class UploadDocumentTest extends TestCase
         $file = UploadedFile::fake()->image('document.pdf');
 
         $request = [
-            'account_id' => $contact->account->id,
+            'account_id' => $contact->account_id,
             'contact_id' => $contact->id,
             'document' => $file,
         ];
@@ -35,7 +36,7 @@ class UploadDocumentTest extends TestCase
 
         $this->assertDatabaseHas('documents', [
             'id' => $document->id,
-            'account_id' => $contact->account->id,
+            'account_id' => $contact->account_id,
             'contact_id' => $contact->id,
             'type' => 'pdf',
         ]);
@@ -48,7 +49,8 @@ class UploadDocumentTest extends TestCase
         Storage::disk('public')->assertExists($document->new_filename);
     }
 
-    public function test_it_fails_if_wrong_parameters_are_given()
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given()
     {
         $request = [
             'account_id' => 1,
@@ -60,7 +62,8 @@ class UploadDocumentTest extends TestCase
         app(UploadDocument::class)->execute($request);
     }
 
-    public function test_it_throws_an_exception_if_contact_does_not_exist()
+    /** @test */
+    public function it_throws_an_exception_if_contact_does_not_exist()
     {
         Storage::fake();
 

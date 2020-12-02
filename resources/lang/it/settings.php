@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * ⚠️ Edition not allowed except for 'en' language.
+ *
+ * @see https://github.com/monicahq/monica/blob/master/docs/contribute/translate.md for translations.
+ */
+
 return [
     'sidebar_settings' => 'Impostazioni accounto',
     'sidebar_personalization' => 'Personalizzazione',
@@ -12,6 +18,20 @@ return [
     'sidebar_settings_api' => 'API',
     'sidebar_settings_dav' => 'Risorse DAV',
     'sidebar_settings_security' => 'Sicurezza',
+    'sidebar_settings_auditlogs' => 'Verifica logs',
+
+    'title_general' => 'Informazioni generali',
+    'title_i18n' => 'Impostazioni internazionali',
+    'title_layout' => 'Impaginazione',
+
+    'me_title' => 'Mio contatto',
+    'me_help' => 'Questo è il contatto che rappresenta <em>te</em> a Monica',
+    'me_select' => 'Seleziona un contatto',
+    'me_no_contact' => 'Ancora nessun contatto selezionato.',
+    'me_select_click' => 'Clicca qui per selezionare un contatto.',
+    'me_remove_contact' => 'Rimuovi l\'associazione',
+    'me_choose' => 'Scegli te stesso',
+    'me_choose_placeholder' => 'Scegli te stesso',
 
     'export_title' => 'Esporta i dati del tuo account',
     'export_be_patient' => 'Clicca il pulsante per iniziare l\'esportazione. Potrebbe volerci qualche minuto – ti chiediamo di portare pazienza e non premere il pulsante a ripetizione.',
@@ -29,6 +49,8 @@ return [
     'name_order_firstname_nickname_lastname' => '<Nome> (<Soprannome>) <Cognome> - Giovanni (Rambo) Bianchi',
     'name_order_lastname_firstname_nickname' => '<Cognome> <Nome> (<Soprannome>) - Bianchi Giovanni (Rambo)',
     'name_order_lastname_nickname_firstname' => '<Cognome> (<Soprannome>) <Nome> - Bianchi (Rambo) Giovanni',
+    'name_order_nickname_firstname_lastname' => '<Nickname> (<First name> <Last name>) - Rambo (John Doe)',
+    'name_order_nickname_firstname_lastname' => '<Nickname> (<Last name> <First name>) - Rambo (Doe John)',
     'name_order_nickname' => '<Soprannome> - Rambo',
     'currency' => 'Valuta',
     'name' => 'Il tuo nome: :name',
@@ -44,7 +66,8 @@ return [
     'layout_big' => 'Larghezza intera del browser',
     'save' => 'Aggiorna impostazioni',
     'delete_title' => 'Rimuovi il tuo account',
-    'delete_desc' => 'Sei sicuro/a di voler rimuovere il tuo account? Attenzione: la rimozione è permanente e verranno rimossi anche i tuoi dati.',
+    'delete_desc' => 'Vuoi eliminare il tuo account? Attenzione: la cancellazione è permanente e tutti i dati verranno cancellati definitivamente. La tua iscrizione (se ne hai una) sarà inoltre immediatamente annullata.',
+    'delete_other_desc' => 'Solo per essere chiaro: i tuoi dati nel database principale saranno cancellati immediatamente. Tuttavia, come descritto nella nostro privacy policy, noi facciamo un backup giornaliero del database in caso di guasto e questo backup viene conservato per 30 giorni - dopodiché\' verrà completamente eliminato. Non è realistico immaginare di dover andare int tutti i backup per cancellare i tuoi dati in modo specifico. A proposito, questi dati sono criptati su server Amazon molto sicuri e nessuno ha la chiave di crittografia tranne noi. Pertanto, i tuoi dati scompariranno completamente tra 30 giorni da tutti i backup, e nessuno saprà che questi dati esistevano in primo luogo.',
     'reset_desc' => 'Sei sicuro/a di voler reimpostare il tuo account? Verranno rimossi tutti i tuoi contatti, e i dati associati. Il tuo account non verrà rimosso.',
     'reset_title' => 'Reimposta il tuo account',
     'reset_cta' => 'Reimposta il tuo account',
@@ -54,6 +77,7 @@ return [
     'delete_cta' => 'Rimuovi account',
     'settings_success' => 'Impostazioni aggiornate',
     'locale' => 'Lingua',
+    'locale_help' => 'Vuoi aiutare a tradurre Monica o ad aggiungere una nuova lingua? Segui <a href=":url" target="_blank" lang="en">questo link per ulteriori informazioni</a>.',
     'locale_ar' => 'Arabo',
     'locale_cs' => 'Ceco',
     'locale_de' => 'Tedesco',
@@ -63,12 +87,15 @@ return [
     'locale_he' => 'Ebraico',
     'locale_hr' => 'Croato',
     'locale_it' => 'Italiano',
+    'locale_ja' => 'Giapponese',
     'locale_nl' => 'Olandese',
     'locale_pt' => 'Portoghese',
-    'locale_pt-BR' => 'Brasiliano',
+    'locale_pt-BR' => 'Portoghese (Brasile)',
     'locale_ru' => 'Russo',
     'locale_zh' => 'Cinese semplificato',
+    'locale_zh-TW' => 'Chinese Traditional',
     'locale_tr' => 'Turco',
+    'locale_en-GB' => 'Inglese (Regno Unito)',
 
     'security_title' => 'Sicurezza',
     'security_help' => 'Modifica le impostazioni di sicurezza relative al tuo account',
@@ -94,22 +121,6 @@ return [
     '2fa_disable_description' => 'Disabilita l\'autenticazione a due fattori. Il tuo account non sarà più sicuro!',
     '2fa_disable_success' => 'Autenticazione a due fattori disattivata',
     '2fa_disable_error' => 'Errore durante la disattivazione dell\'autenticazione a due fattori',
-    'u2f_title' => 'Chiave di sicurezza U2F',
-    'u2f_enable_description' => 'Aggiungi una nuova chiave U2F',
-    'u2f_key_name_help' => 'Dai un nome alla tua chiave.',
-    'u2f_key_name' => 'Nome della chiave:',
-    'u2f_buttonAdvise' => 'Se la tua chiave ha un bottone, premilo.',
-    'u2f_noButtonAdvise' => 'Se non ce l\'ha, rimuovila e reinseriscila nel computer.',
-    'u2f_success' => 'Chiave rilevata e confermata.',
-    'u2f_insertKey' => 'Inserisci la tua chiave di sicurezza.',
-    'u2f_error_other_error' => 'Si è verificato un errore.',
-    'u2f_error_bad_request' => 'L\'indirizzo non corrisponde all\'App ID oppure non stai usando HTTPS',
-    'u2f_error_configuration_unsupported' => 'La configurazione da client non è supportata',
-    'u2f_error_device_ineligible' => 'Il dispositivo inserito non è valido per la richiesta. Per la registrazione potrebbe voler dire che il dispositivo è già registrato, per il login potrebbe indicare che il token non riconosce la chiave inviata.',
-    'u2f_error_timeout' => 'Timeout raggiunto prima che la richiesta venisse soddisfatta',
-    'u2f_last_use' => 'Ultimo uso: {timestamp}',
-    'u2f_delete_confirmation' => 'Siete sicuro di voler cancellare questa chiave?',
-    'u2f_delete_success' => 'Chiave eliminata',
 
     'webauthn_title' => 'Chiave di sicurezza — Protocollo WebAuthn',
     'webauthn_enable_description' => 'Aggiungi una nuova chiave di sicurezza',
@@ -180,14 +191,14 @@ return [
     'subscriptions_account_invoices_download' => 'Scarica',
     'subscriptions_account_invoices_subscription' => 'Abbonamento da :startDate a :endDate',
     'subscriptions_account_payment' => 'Quale opzione di pagamento preferisci?',
-    'subscriptions_account_confirm_payment' => 'Your payment is currently incomplete, please <a href=":url">confirm your payment</a>.',
+    'subscriptions_account_confirm_payment' => 'Il tuo pagamento è attualmente incompleto, per favore <a href=":url">conferma il tuo pagamento</a>.',
     'subscriptions_downgrade_title' => 'Retrocedi il tuo piano a quello gratuito',
     'subscriptions_downgrade_limitations' => 'Il piano gratuito è limitato. Per poter retrocedere il tuo account al piano gratuito, devi soddisfare questi requisiti:',
     'subscriptions_downgrade_rule_users' => 'Devi avere un solo utente nel tuo account',
     'subscriptions_downgrade_rule_users_constraint' => 'Al momento hai <a href=":url">1 utente</a> nel tuo account.|Al momento hai <a href=":url">:count utenti</a> nel tuo account.',
     'subscriptions_downgrade_rule_invitations' => 'Non puoi avere inviti in attesa',
     'subscriptions_downgrade_rule_invitations_constraint' => 'Al momento hai <a href=":url">1 invito</a> in attesa di risposta.|Al momento hai <a href=":url">:count inviti</a> in attesa di risposta.',
-    'subscriptions_downgrade_rule_contacts' => 'Non puoi avere più di :number contatti',
+    'subscriptions_downgrade_rule_contacts' => 'Non puoi avere più di :number contatti attivi',
     'subscriptions_downgrade_rule_contacts_constraint' => 'Al momento hai <a href=":url">1 contatto</a>.|Al momento hai <a href=":url">:count contatti</a>.',
     'subscriptions_downgrade_cta' => 'Retrocedi',
     'subscriptions_downgrade_success' => 'Sei tornato al piano gratuito!',
@@ -292,13 +303,16 @@ return [
 
     'api_title' => 'Accesso all\'API',
     'api_description' => 'L\'API puó essere usata per manipolare le informazioni in Monica da un\'applicazione esterna, ad esempio da un\'applicazione per smartphone.',
+    'api_help' => 'Per utilizzare le API, é obbligatorio l\'uso di un token. È possibile creare un token di accesso personale (autenticazione Bearer), o autorizzare un client OAuth per farlo creare al posto vostro. Vedi <a href=":url">documentazione riguardo le API</a> per maggiori informazioni.',
+    'api_endpoint' => 'L\'endpoint API per questa istanza Monica è:',
 
     'api_personal_access_tokens' => 'Personal access token',
     'api_pao_description' => 'Assicurati di dare questo token a fonti fidate, giá che danno accesso a tutti i tuoi dati.',
-    'api_token_title' => 'Token di accesso personale',
+    'api_token_title' => 'Token di Acceso personale',
     'api_token_create_new' => 'Crea nuovo token',
     'api_token_not_created' => 'Non hai creato nessun token di accesso.',
-    'api_token_name' => 'Nome',
+    'api_token_name' => 'Nome token',
+    'api_token_expire' => 'Scade il {date}',
     'api_token_delete' => 'Rimuovi',
     'api_token_create' => 'Crea Token',
     'api_token_scopes' => 'Visibilità',
@@ -306,6 +320,7 @@ return [
 
     'api_oauth_clients' => 'I tuoi client Oauth',
     'api_oauth_clients_desc' => 'Questa sezione ti permette di registrare i tuoi client OAuth.',
+    'api_oauth_clients_desc2' => 'Usa questo Id Client per richiedere un nuovo token e convertire i codici di autorizzazione a token di accesso. Vedi la <a href="{url}">documentazione di Laravel Passport</a> per ulteriori informazioni.',
     'api_oauth_title' => 'Client OAuth',
     'api_oauth_create_new' => 'Crea nuovo client',
     'api_oauth_edit' => 'Modifica client',
@@ -319,8 +334,9 @@ return [
     'api_oauth_redirecturl_help' => 'Indirizzo della callback di autorizzazione della tua applicazione.',
 
     'api_authorized_clients' => 'Lista di client autorizzati',
-    'api_authorized_clients_desc' => 'Questa sezione elenca tutti i client a cui hai dato accesso alla tua applicazione. Puoi revocare questa autorizzazione in qualsiasi momento.',
+    'api_authorized_clients_desc' => 'Questa sezione elenca tutti i client che hai autorizzato ad accedere all\'applicazione. Puoi revocare questa autorizzazione in qualsiasi momento.',
     'api_authorized_clients_title' => 'Applicazioni autorizzate',
+    'api_authorized_clients_none' => 'Non c\'è ancora nessun client autorizzato.',
     'api_authorized_clients_name' => 'Nome',
     'api_authorized_clients_scopes' => 'Visibilità',
 
@@ -355,7 +371,7 @@ return [
     'personalization_genders_modal_name_help' => 'Il nome utilizzato per visualizzare il genere in una pagina di contatto.',
     'personalization_genders_modal_sex' => 'Sesso',
     'personalization_genders_modal_sex_help' => 'Usato per definire le relazioni, e durante il processo di importazione/esportazione della VCard.',
-    'personalization_genders_modal_default' => 'Questo è il genere predefinito per un nuovo contatto?',
+    'personalization_genders_modal_default' => 'Seleziona il sesso predefinito per un nuovo contatto',
     'personalization_genders_modal_delete' => 'Elimina sesso',
     'personalization_genders_modal_delete_desc' => 'Sei sicuro di voler eliminare {name}?',
     'personalization_genders_modal_delete_question' => 'Attualmente hai {count} contatto con questo sesso. Se lo elimini, quale sesso vuoi impostargli?|Attualmente hai {count} contatti con questo sesso. Se lo elimini, quale sesso vuoi impostare per loro?',
@@ -383,7 +399,8 @@ return [
     'personalization_module_title' => 'Funzionalità',
     'personalization_module_desc' => 'Alcune persone non hanno bisogno di tutte le funzioni. Qui sotto puoi decidere quali funzioni attivare per le pagine dei contatti. Questi cambiamenti riguardano TUTTI i contatti. Nota: se disattivi una funzione non elimineremo nessun dato - verranno semplicemente nascosti.',
 
-    'personalisation_paid_upgrade' => 'Questa è una funzionalità premium e richiede un abbonamento. Abbonati ora nvigando su Impostazioni > Abbonamento.',
+    'personalisation_paid_upgrade' => 'Questa è una funzionalità premium che richiede un abbonamento a pagamento per essere attivo. Aggiorna il tuo account visitando <a href=":url">Impostazioni > Abbonamento</a>.',
+    'personalisation_paid_upgrade_vue' => 'Questa è una funzionalità premium che richiede un abbonamento a pagamento per essere attiva. Aggiorna il tuo account visitando <a href="{url}">Impostazioni > Abbonamento</a>.',
 
     'reminder_time_to_send' => 'Ora del giorno in cui inviare i promemoria',
     'reminder_time_to_send_help' => 'Per informazione, il tuo prossimo promemoria verrà inviato il <span title="{dateTimeUtc}" class="reminder-info">{dateTime}</span>.',
@@ -469,7 +486,7 @@ return [
     'dav_clipboard_copied' => 'Valore copiato negli appunti',
     'dav_url_base' => 'Url di base per tutte le risorse CardDAV e CalDAV:',
     'dav_connect_help' => 'Puoi collegare i tuoi contatti e/o calendari con questo url di base sul tuo telefono o computer.',
-    'dav_connect_help2' => 'Usa il tuo login (email) e la password, o crea un token API per autenticarti.',
+    'dav_connect_help2' => 'Use your login (email) and create an API token as the password to authenticate.',
     'dav_url_carddav' => 'Url CardDAV per la risorsa Contatti:',
     'dav_url_caldav_birthdays' => 'Url CalDAV per le risorse di compleanni:',
     'dav_url_caldav_tasks' => 'Url CalDAV per le risorse di task:',
@@ -478,4 +495,11 @@ return [
     'dav_carddav_export' => 'Esporta tutti i contatti in un file',
     'dav_caldav_birthdays_export' => 'Esporta tutti i compleanni in un file',
     'dav_caldav_tasks_export' => 'Esporta tutte le attività in un file',
+
+    'archive_title' => 'Archivia tutti i tuoi contatti nel tuo account',
+    'archive_desc' => 'Questo archivierà tutti i contatti del tuo account.',
+    'archive_cta' => 'Archivia tutti i tuoi contatti',
+
+    'logs_title' => 'Tutto ciò che è successo a questo account',
+    'logs_author' => 'Da :name il :date',
 ];

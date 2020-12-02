@@ -7,13 +7,18 @@ $factory->define(App\Models\User\User::class, function (Faker\Generator $faker) 
         'account_id' => factory(App\Models\Account\Account::class)->create()->id,
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
-        'email' => $faker->safeEmail,
+        'email' => $faker->unique()->safeEmail,
         'email_verified_at' => \App\Helpers\DateHelper::parseDateTime($faker->dateTimeThisCentury()),
         'password' => bcrypt(Str::random(10)),
         'remember_token' => Str::random(10),
         'timezone' => config('app.timezone'),
         'name_order' => 'firstname_lastname',
         'locale' => 'en',
+        'currency_id' => function (array $data) {
+            return factory(App\Models\Settings\Currency::class)->create([
+                'iso' => 'USD',
+            ])->id;
+        },
     ];
 });
 
